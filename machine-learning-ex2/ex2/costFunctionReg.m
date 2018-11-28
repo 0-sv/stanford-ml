@@ -27,10 +27,9 @@ oldGrad = ((1/m) * S);
 
 J = oldJ + (lambda/(2*m)) * sum(theta(2:end) .^ 2)
 
-% for i = 2:size(theta)
-%   theta(i) = theta(i) * (lambda/m);
-% endfor
-grad = oldGrad + (lambda/m) .* theta(2:end)
+temp = theta;
+temp(1) = 0;
+grad = oldGrad + ((lambda/m) .* temp);
 
 
 % =============================================================

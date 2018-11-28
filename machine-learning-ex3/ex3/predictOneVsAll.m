@@ -30,13 +30,28 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+%hypothesis(image) = sigmoid(all_theta(1,1) * X(1,1) + alltheta(1, 2) * X(1, 2) + ... + alltheta(1, 400) * X(1, 400))
+% sequential implementation: 
+% for i = 1:m
+%   for j = 1:num_labels
+%     p(i) = max(
+%       sigmoid(
+%         sum(
+%           all_theta(i, j) * X(i, j); 
+%           )
+%         )
+%     )
+%   endfor % check P(y=j|x;theta)
+% endfor % every image	    
 
-
-
-
-
+% vectorized implementation:
+initial_probabilities = zeros(size(X, 1), num_labels);
+for c = 1:num_labels
+  initial_probabilities(:, c) = sigmoid(X*all_theta(c, :)');
+endfor
+[x, ix] = max(initial_probabilities, [], 2);
+p = ix;
 
 % =========================================================================
-
 
 end

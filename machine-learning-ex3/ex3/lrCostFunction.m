@@ -36,14 +36,19 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+H = sigmoid(X*theta);
 
+C = ((-y)' * log(H)) - (1 - y)' * log(1-H);
+oldJ = (1/m) * C;
 
+S = (X' * (H-y));
+oldGrad = ((1/m) * S);
 
+J = oldJ + (lambda/(2*m)) * sum(theta(2:end) .^ 2)
 
-
-
-
-
+temp = theta;
+temp(1) = 0;
+grad = oldGrad + ((lambda/m) .* temp);
 
 % =============================================================
 

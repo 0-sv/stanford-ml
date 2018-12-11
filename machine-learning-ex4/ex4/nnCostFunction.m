@@ -66,7 +66,6 @@ Theta2_grad = zeros(size(Theta2));
   % Transform y(i) in 10D vector with 1 output = 1. 
   newY = eye(num_labels)(y,:);
 
-  % Maybe H is a matrix of m * num_labels with each output value..
   a1 = X;
   a1 = [ones(size(a1, 1), 1) a1];
   z2 = a1*Theta1';
@@ -75,10 +74,30 @@ Theta2_grad = zeros(size(Theta2));
   z3 = a2*Theta2';
   a3 = sigmoid(z3);
 
-  J = sum((sum(-(newY) .* log(a3)) - sum((1-newY) .* log(1-a3)))) / m;
+  unregularizedJ = sum((sum(-(newY) .* log(a3)) - sum((1-newY) .* log(1-a3)))) / m;
+  
+  Theta1WithoutBias = Theta1;
+  Theta2WithoutBias = Theta2;
+  Theta1WithoutBias(:, 1) = 0; 
+  Theta2WithoutBias(:, 1) = 0;
+  
+  sumTheta1 = sum(sum(Theta1WithoutBias .^ 2));
+  sumTheta2 = sum(sum(Theta2WithoutBias .^ 2));
+
+  J = unregularizedJ + ((lambda/(2*m)) * (sumTheta1 + sumTheta2));
+
+% Part 2:
+for t = 1:m
+  a_1 = X(t, :)';
+  a_1 = [1 ; a_1];
+  z_2 = a_1 * Theta1';
+  a_2 = sigmoid(z_2);
+  a_2 = [1;a_2];
+  z_3 = a2 * Theta2';
+  a_3 = sigmoid(z_3);
 
 
-
+endfor
 
 
 

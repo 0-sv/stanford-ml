@@ -87,17 +87,11 @@ Theta2_grad = zeros(size(Theta2));
   J = unregularizedJ + ((lambda/(2*m)) * (sumTheta1 + sumTheta2));
 
 % Part 2:
-for t = 1:m
-  a_1 = X(t, :)';
-  a_1 = [1 ; a_1];
-  z_2 = a_1 * Theta1';
-  a_2 = sigmoid(z_2);
-  a_2 = [1;a_2];
-  z_3 = a2 * Theta2';
-  a_3 = sigmoid(z_3);
+  d3 = a3 - newY;
+  d2 = d3 * Theta2(:, 2:end) .* sigmoidGradient(z2); 
+  
 
 
-endfor
 
 
 

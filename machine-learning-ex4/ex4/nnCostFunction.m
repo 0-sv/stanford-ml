@@ -63,42 +63,38 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 % Part 1:
-  % Transform y(i) in 10D vector with 1 output = 1. 
-  newY = eye(num_labels)(y,:);
+% Transform y(i) in 10D vector with 1 output = 1. 
+newY = eye(num_labels)(y,:);
 
-  a1 = X;
-  a1 = [ones(size(a1, 1), 1) a1];
-  z2 = a1*Theta1';
-  a2 = sigmoid(z2);
-  a2 = [ones(size(a2, 1), 1) a2];
-  z3 = a2*Theta2';
-  a3 = sigmoid(z3);
+a1 = X;
+a1 = [ones(size(a1, 1), 1) a1];
+z2 = a1*Theta1';
+a2 = sigmoid(z2);
+a2 = [ones(size(a2, 1), 1) a2];
+z3 = a2*Theta2';
+a3 = sigmoid(z3);
 
-  unregularizedJ = sum((sum(-(newY) .* log(a3)) - sum((1-newY) .* log(1-a3)))) / m;
-  
-  Theta1WithoutBias = Theta1;
-  Theta2WithoutBias = Theta2;
-  Theta1WithoutBias(:, 1) = 0; 
-  Theta2WithoutBias(:, 1) = 0;
-  
-  sumTheta1 = sum(sum(Theta1WithoutBias .^ 2));
-  sumTheta2 = sum(sum(Theta2WithoutBias .^ 2));
+unregularizedJ = sum((sum(-(newY) .* log(a3)) - sum((1-newY) .* log(1-a3)))) / m;
 
-  J = unregularizedJ + ((lambda/(2*m)) * (sumTheta1 + sumTheta2));
+Theta1WithoutBias = Theta1;
+Theta2WithoutBias = Theta2;
+Theta1WithoutBias(:, 1) = 0; 
+Theta2WithoutBias(:, 1) = 0;
+
+sumTheta1 = sum(sum(Theta1WithoutBias .^ 2));
+sumTheta2 = sum(sum(Theta2WithoutBias .^ 2));
+
+J = unregularizedJ + ((lambda/(2*m)) * (sumTheta1 + sumTheta2));
 
 % Part 2:
-  d3 = a3 - newY;
-  d2 = d3 * Theta2(:, 2:end) .* sigmoidGradient(z2); 
-  d2 = d2(2:end);
+d3 = a3 - newY;
+d2 = d3 * Theta2(:, 2:end) .* sigmoidGradient(z2); 
+
+Delta1 = d2' * a1;
+Delta2 = d3' * a2;
   
-  Delta1 = d2 * a1';
-  Delta2 = d3 * a2';
-  
-  Theta1_grad = Delta1/m;
-  Theta2_grad = Delta2/m;
-
-
-
+Theta1_grad = (1/m) .* Delta1;
+Theta2_grad = (1/m) .* Delta2;
 
 % -------------------------------------------------------------
 

@@ -19,16 +19,20 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+% Cost: 
+mean_squared_errorCost = sum((X*theta - y) .^ 2);
 
+theta_sum_squared = sum(theta(2:end) .^ 2);
+regularizationCost = (lambda/(2*m)) * theta_sum_squared;
 
+J = (1/(2*m)) * mean_squared_errorCost + regularizationCost;
 
-
-
-
-
-
-
-
+% Gradient:
+mean_squared_errorGrad = (X' * (X*theta - y));
+tempTheta = theta;
+tempTheta(1) = 0;
+regularizationGrad = (lambda/m) .* tempTheta;
+grad = ((1/m) * mean_squared_errorGrad) + regularizationGrad;
 
 % =========================================================================
 

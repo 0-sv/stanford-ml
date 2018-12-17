@@ -53,11 +53,16 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+for i = 1:m
+    % learn theta:
+    subsetThetaTrain = trainLinearReg(X, y, lambda);
 
+    % computing training set error:
+    error_train(i) = (1/(2*m)) * sum((X(1:i, :)*subsetThetaTrain - y(1:i)) .^ 2);
 
-
-
-
+    % computing cross-validation set error:
+    error_val(i) = (1/(2*m)) * sum((Xval*subsetThetaTrain - yval) .^ 2);
+endfor
 
 % -------------------------------------------------------------
 

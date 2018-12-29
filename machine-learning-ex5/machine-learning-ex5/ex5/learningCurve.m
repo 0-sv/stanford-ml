@@ -55,13 +55,13 @@ error_val   = zeros(m, 1);
 
 for i = 1:m
     % learn theta:
-    subsetThetaTrain = trainLinearReg(X, y, lambda);
+    subsetThetaTrain = trainLinearReg(X(1:i, :), y(1:i), lambda);
 
     % computing training set error:
-    error_train(i) = (1/(2*m)) * sum((X(1:i, :)*subsetThetaTrain - y(1:i)) .^ 2);
+    error_train(i) = linearRegCostFunction(X(1:i, :), y(1:i), subsetThetaTrain, 0);
 
-    % computing cross-validation set error:
-    error_val(i) = (1/(2*m)) * sum((Xval*subsetThetaTrain - yval) .^ 2);
+    % computing cross-validation set error:e
+    error_val(i) = linearRegCostFunction(Xval, yval, subsetThetaTrain, 0);
 endfor
 
 % -------------------------------------------------------------

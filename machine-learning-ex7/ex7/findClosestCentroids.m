@@ -25,7 +25,12 @@ for i = 1:size(idx)
     minDistance = 100000
     closestCentroid = 1
     for j = 1:K
-        distanceToCentroid = (sqrt((X(i, 1) - centroids(j, 1)) + sqrt(X(i, 2) - centroids(j, 2))))^2
+        numFeatures = columns(X)
+        distanceToCentroid = 0 
+        for k = 1:numFeatures
+            distanceToCentroid = distanceToCentroid + (centroids(j, k) - X(i, k))^2
+        endfor
+        distanceToCentroid = sqrt(distanceToCentroid)
         if (distanceToCentroid < minDistance)
             closestCentroid = j
             minDistance = distanceToCentroid

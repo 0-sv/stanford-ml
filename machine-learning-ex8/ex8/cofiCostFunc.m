@@ -40,20 +40,15 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+pred_mov_rat = X*Theta';
+mov_rat_error = X*Theta' - Y;
+error_factor = mov_rat_error .* R;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+mean_sq_error = sum(sum(error_factor.^2))
+J = 0.5 * mean_sq_error;
+X_grad = error_factor*Theta
+Theta_grad = error_factor'*X
 
 % =============================================================
 
